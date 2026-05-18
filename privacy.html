@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Credit Tracker — Privacy Policy</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      max-width: 760px; margin: 40px auto; padding: 0 24px; line-height: 1.7; color: #1a1a1a; }
+    h1 { margin-bottom: 8px; }
+    h2 { margin-top: 36px; border-bottom: 1px solid #e0e0e0; padding-bottom: 8px; }
+    .effective { color: #666; }
+    code { background: #f5f5f5; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
+    a { color: #f97316; }
+    a:hover { color: #ea580c; }
+    nav { margin-bottom: 24px; }
+    nav a { color: #666; text-decoration: none; margin-right: 16px; }
+    nav a:hover { color: #f97316; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="terms.html">Terms of Service</a>
+  </nav>
+
+  <h1>Privacy Policy</h1>
+  <p class="effective">Effective date: May 17, 2026 &middot; Last updated: May 17, 2026</p>
+
+  <h2>1. Overview</h2>
+  <p>
+    Credit Tracker (the "Application") is a self-hosted, open-source personal finance tool that helps a single
+    user track unused statement credits on their own credit cards. The Application is operated and used
+    exclusively by Chiyu Yang ("the Operator") for personal financial management. There are no other users,
+    customers, or third-party clients.
+  </p>
+  <p>
+    This privacy policy explains what data the Application accesses, how it is stored, and how it is used.
+    It is published to meet the requirements of third-party data providers (such as Plaid Inc.) whose APIs
+    the Application integrates with.
+  </p>
+
+  <h2>2. Data we collect</h2>
+  <p>The Application accesses the following categories of data, exclusively about the Operator's own accounts:</p>
+  <ul>
+    <li><strong>Financial account information</strong> obtained via the Plaid API: institution name,
+      account name, account type/subtype, account mask (last 4 digits), and Plaid account identifiers.</li>
+    <li><strong>Credit and debit card transactions</strong>: transaction ID, date, amount, currency,
+      merchant name, transaction name, pending status, and Plaid's transaction categorization.</li>
+    <li><strong>User-supplied metadata</strong>: manual mappings between Plaid accounts and statement-credit
+      catalog entries, and manual overrides indicating that a credit has been used or reset.</li>
+  </ul>
+  <p>The Application does <strong>not</strong> access or store:</p>
+  <ul>
+    <li>Bank usernames or passwords (handled exclusively inside the Plaid Link UI, never seen by the Application).</li>
+    <li>Full account numbers or full card numbers (only the masked last 4 digits returned by Plaid).</li>
+    <li>Social Security numbers, identity-verification data, or biometric data.</li>
+    <li>Location, contact lists, device sensors, or other operating-system data.</li>
+  </ul>
+
+  <h2>3. How data is used</h2>
+  <p>Data is used solely to:</p>
+  <ul>
+    <li>Display the Operator's transactions and account balances within the locally-running web dashboard.</li>
+    <li>Match transactions against a catalog of known statement credits to compute remaining benefits per period.</li>
+    <li>Send reminders to the Operator about credits that are about to expire.</li>
+  </ul>
+  <p>Data is <strong>not</strong> sold, rented, licensed, shared with advertisers, or used to train any AI model.</p>
+
+  <h2>4. Data storage and security</h2>
+  <ul>
+    <li>All data is stored locally on the Operator's personal computer in a SQLite database file.</li>
+    <li>Plaid access tokens are encrypted at the application layer using Fernet (AES-128-CBC + HMAC-SHA256). The symmetric key is stored in a separate file with owner-only permissions (chmod 600) and is excluded from version control.</li>
+    <li>The host device additionally runs macOS with FileVault full-disk encryption enabled, providing a second layer of encryption at rest.</li>
+    <li>The host device requires Touch ID / password authentication to unlock.</li>
+    <li>All HTTP API calls to the locally-running dashboard require a server-generated bearer session token. CORS is restricted to localhost origins only.</li>
+    <li>Communication between the Application and the Plaid API uses TLS 1.2 or higher, as enforced by the Plaid Python SDK.</li>
+    <li>The <code>.env</code> file containing Plaid client credentials is excluded from version control.</li>
+    <li>No data is transmitted to any server other than Plaid's API endpoints.</li>
+  </ul>
+
+  <h2>5. Third-party services</h2>
+  <p>
+    The Application uses the <a href="https://plaid.com/legal/" rel="noopener noreferrer">Plaid API</a> to
+    securely connect to the Operator's financial institutions. Plaid's privacy practices are governed by
+    Plaid's own End User Privacy Policy and are independent of this policy. By using the Application, the
+    Operator authorizes Plaid to access account data on the Operator's behalf.
+  </p>
+
+  <h2>6. Data retention and deletion</h2>
+  <p>The Operator may delete all stored data at any time by:</p>
+  <ul>
+    <li>Deleting the SQLite database file (<code>data/tracker.db</code>) to remove transactions and overrides.</li>
+    <li>Calling the Plaid <code>/item/remove</code> endpoint, or revoking access from within each bank's
+      online portal, to revoke the Application's access to financial institutions.</li>
+    <li>Deleting the Application directory entirely.</li>
+  </ul>
+  <p>
+    No automated retention is enforced; the Operator chooses when to delete data. Because the Application
+    has only one user (the Operator), there are no third-party data subject rights to administer.
+  </p>
+
+  <h2>7. Consent</h2>
+  <p>
+    Because the Operator is the only user, the Operator's act of running and configuring the Application
+    constitutes informed consent to the collection and storage of their own financial data. The Application
+    will never share data on behalf of any other user.
+  </p>
+
+  <h2>8. Changes to this policy</h2>
+  <p>Updates to this policy will be published at this URL with the "Last updated" date revised.</p>
+
+  <h2>9. Contact</h2>
+  <p>
+    Questions, requests, or notices regarding this privacy policy can be sent to:<br />
+    <a href="mailto:steven95421@gmail.com">steven95421@gmail.com</a>
+  </p>
+</body>
+</html>
